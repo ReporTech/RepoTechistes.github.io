@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es" class="light dark">
+
+<head>
+
+ <meta charset="UTF-8">
+ <title>Chistes</title>
+ <meta name="description" content="Ejemplo de PWA con Material Design">
+ <script src="js/registraServiceWorker.js"></script>
+ <meta name="viewport" content="width=device-width">
+ <meta name="theme-color" content="#fffbfe">
+ <link rel="icon" sizes="32x32" href="favicon.ico">
+ <link rel="manifest" href="site.webmanifest">
+ <script src="ungap/custom-elements.js"></script>
+
+ <!-- Configuración de todas las páginas con JavaSript. -->
+ <script type="module" src="js/configura.js"></script>
+ <link rel="stylesheet" href="css/estilos.css">
+ <link rel="stylesheet" href="css/transicion_completa.css">
+
+</head>
+
+<body>
+
+    <h1>Chistes</h1> 
+ <md-top-app-bar class="center-aligned">
+
+  <nav-tab-fixed id="tab"></nav-tab-fixed>
+ <!--<button is="md-menu-button" slot="navigation"></button>-->
+
+
+ </md-top-app-bar>
+
+
+  <form action="" id="form" novalidate onsubmit="procesa(event)">
+    <main>
+    <p>
+        <p>
+            Selecciona un integrante y descubre el chiste que colocó.
+        </p>
+
+        <!--CAMBIAR NOMBRE DE LAS CLASES-->
+        <span  class="md-filled-text-field" accesskey="G">
+            <md-select-menu id="selectGenero" required options="opcionesDeGenero"
+           oninput="copiaMensajes()"></md-select-menu>
+            <span>Integrante*</span>
+            <small id="supportingGenero">Obligatorio</small>
+        </span>
+    </p>
+
+    <p>
+        <button class="md-filled-button" style="width: 100%;">Enviar</button>
+    </p>
+    </main>
+
+    <md-options-menu id="opcionesDeGenero" aria-label="Opciones de genero">
+        <span data-value="" title="Selecciona opción"></span>
+        <span data-value="Balbuena">Yahir Balbuena</span>
+        <span data-value="Chan">Miguel Chan</span>
+        <span data-value="Paul">Carlo de Paul</span>
+        <span data-value="Martinez">Gael Martinez</span>
+        <span data-value="Meza">Roberto Meza</span>
+        <span data-value="Chula">Jose Chula</span>
+        <span data-value="Serrano">Jorge Serrano</span>
+       </md-options-menu>
+       <nav-drw></nav-drw>
+  </form>
+
+  <script type="module">
+    import { muestraTextoDeAyuda } from "./lib/js/muestraTextoDeAyuda.js"
+    import { exportaAHtml } from "./lib/js/exportaAHtml.js"
+    import { muestraError } from "./lib/js/muestraError.js"
+
+    function copiaMensajes() {
+   muestraTextoDeAyuda(selectGenero, supportingGenero, "Obligatorio")
+  }
+  exportaAHtml(copiaMensajes)
+
+   /**
+   * @param {SubmitEvent} evt
+   */
+   function procesa(evt) {
+   evt.preventDefault()
+   try {
+    copiaMensajes()
+    if (
+     selectGenero.validity.valid) {
+     const genero = selectGenero.value
+     const resultado = recomienda(genero)
+     alert(resultado)
+    }
+   } catch (e) {
+    muestraError(e)
+   }
+  }
+  exportaAHtml(procesa)
+
+  /** @param {string} genero */
+  function recomienda(genero) {
+   if (genero === "Martinez") {
+    return "Su humor era tan negro que le disparaba la policía."
+   } else if (genero === "Chan") {
+    return "¿Cuántos hombres hacen falta para abrir una cerveza? " + " Ninguno. Debería estar abierta para cuando ella la traiga."
+   }else if (genero === "Balbuena") {
+    return "El humor negro es como los esclavos, hoy en día muy pocos tenemos uno."
+   }else if (genero === "Serrano") {
+    return "¿Qué tienen en común un niño y un globo?" +
+    "Los dos estallan cuando los pinchas."
+   }else if (genero === "Paul") {
+    return "¿Qué es peor que seis niños colgados de un árbol?" +
+    "Un niño colgado de seis árboles."
+   }else if (genero === "Meza") {
+    return "Mi novia, hablando de astronomía, me preguntó cómo mueren las estrellas."+
+    "Normalmente por sobredosis, le dije."
+   }else if (genero === "Chula") {
+    return "¿Qué tienen en común Miguel Ángel y Kurt Cobain?" +
+    "Que los dos usaros sus cerebros para pintar el techo."
+   }
+  }
+
+  </script>
+ 
+ <nav-drw></nav-drw>
+
+</body>
+
+</html>
